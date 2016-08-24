@@ -1,29 +1,30 @@
 
-![logo](https://raw.githubusercontent.com/opentok/annotation-acc-pack/1.0.0/tokbox-logo.png)
+![logo](https://raw.githubusercontent.com/opentok/archiving-acc-pack/master/tokbox-logo.png)
 
 # OpenTok Annotation Accererator Pack
 
-This package provides an easy way to get started in implementing interoperable annotation over audio/video or shared screen using the OpenTok platform.  For usage details, take a look at the [Screen Sharing Annotation Sample App](https://github.com/opentok/screensharing-annotation-acc-pack/tree/master/JS).
-
+This package provides an easy way to get started in implementing audio/video archiving using the OpenTok platform.
 
 ###Installation:
 
 ```bash
-$ npm install --save opentok-annotation
+$ npm install --save opentok-archiving
 ```
 
 If using browserify or webpack:
 
 ```javascript
-const annotation = require('opentok-annotation');
+const archiving = require('opentok-archiving');
 ```
 
 Otherwise, include the accelerator pack in your html:
 
 ```html
-<script src="../your/path/to/opentok-annotation.js"></script>
+<script src="../your/path/to/opentok-archiving.js"></script>
 ```
- . . . and it will be available in global scope as `AnnotationAccPack`
+ . . . and it will be available in global scope as `ArchivingAccPack`
+
+*`jQuery` is currently a required dependency of this accelerator pack (we plan to remove it soon).  If you are NOT using a bundler such a as browserify or webpack, you must include `jQuery` in your project.*
 
 -----------------
 
