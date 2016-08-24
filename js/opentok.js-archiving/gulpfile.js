@@ -1,8 +1,6 @@
 var gulp = require('gulp');
 var concat = require('gulp-concat');
-var importCss = require('gulp-import-css');
 var uglify = require('gulp-uglify');
-var zip = require('gulp-zip');
 var rename = require('gulp-rename');
 var merge = require('merge-stream');
 
