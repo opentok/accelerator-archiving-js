@@ -32,7 +32,7 @@
     var readableDate = date.toISOString().substr(11, 8);
 
     /* eslint-disable prefer-template */
-    var modalTemplate = ['<div id="otsArchivingModal" class="modal">',
+    var modalTemplate = ['<div id="otsArchivingModal" class="ots-archiving-modal">',
       '<div class="modal-content">',
       '<div>',
       '<span id="closeArchiveModal" class="close-button">×</span>',
@@ -102,10 +102,9 @@
   };
 
   var _appendControl = function (container) {
-
     var feedControls = document.querySelector(container);
 
-    var btn = '<div class="video-control circle archiving enabled" id="enableArchiving"></div>';
+    var btn = '<div class="ots-video-control circle archiving enabled" id="enableArchiving"></div>';
 
     var el = document.createElement('div');
     el.innerHTML = btn;
@@ -136,16 +135,15 @@
 
   var _addEventListeners = function () {
     _accPack.registerEventListener('startCall', function () {
-
       if (_controlAdded) {
-        document.getElementById('enableArchiving').classList.remove('hidden');
+        document.getElementById('enableArchiving').classList.remove('ots-hidden');
       } else {
         _appendControl();
       }
     });
 
     _accPack.registerEventListener('endCall', function () {
-      document.getElementById('enableArchiving').classList.add('hidden');
+      document.getElementById('enableArchiving').classList.add('ots-hidden');
     });
   };
 
