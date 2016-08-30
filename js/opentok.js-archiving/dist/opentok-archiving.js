@@ -13,7 +13,7 @@
 
   var _startURL;
   var _stopURL;
-  var _currentArchiveId;
+  var _currentArchive;
   var _recording = false;
   var _controlAdded = false;
   var _accPack;
@@ -82,7 +82,7 @@
   var start = function () {
     $.post(_startURL, { sessionId: _session.id })
       .then(function (archive) {
-        _currentArchiveId = archive;
+        _currentArchive = archive;
         _triggerEvent('startArchive', archive);
       })
       .fail(function (error) {
@@ -91,7 +91,7 @@
   };
 
   var stop = function () {
-    $.post(_stopURL, { archiveId: _currentArchiveId })
+    $.post(_stopURL, { archiveId: _currentArchive.id })
       .then(function (data) {
         _setDownloadModal(data);
         _triggerEvent('stopArchive', data);
