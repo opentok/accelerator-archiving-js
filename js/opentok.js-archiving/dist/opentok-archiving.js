@@ -37,7 +37,7 @@
       '<div>',
       '<span id="closeArchiveModal" class="close-button">×</span>',
       '<h2 class="archive-name">' + archive.name + '</h2>',
-      '<a href=' + archive.url + ' class="download" target="_blank"> Download </a>',
+      '<a href=' + archive.url + ' class="download" target="_blank">Download Archive</a>',
       '</div>',
       '<div>',
       '<span class="date-time"> File size: </span>',
