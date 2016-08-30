@@ -16,7 +16,7 @@ if [ "$task" == "-d" ]; then
 	# npm install gulp
 	# npm install gulp-concat gulp-import-css gulp-uglify gulp-zip gulp-unzip gulp-concat-css
 
-if [[ -d opentok.js-annotations ]]
+if [[ -d opentok.js-archiving ]]
 then
 	cd opentok.js-archiving
 	npm i
