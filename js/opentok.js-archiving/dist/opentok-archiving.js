@@ -41,7 +41,7 @@
       '</div>',
       '<div>',
       '<span class="date-time"> File size: </span>',
-      '<span class="archive-information">' + archive.size / 1000 + ' Mb</span>',
+      '<span class="archive-information">' + archive.size / (1000 * 1000) + ' MB</span>',
       '</br>',
       '<span class="date-time"> Duration: </span>',
       '<span class="archive-information">' + readableDate + '</span>',
@@ -91,10 +91,11 @@
   };
 
   var stop = function () {
+    _triggerEvent('stopArchive', data);
     $.post(_stopURL, { archiveId: _currentArchive.id })
       .then(function (data) {
         _setDownloadModal(data);
-        _triggerEvent('stopArchive', data);
+        _triggerEvent('archiveReady', data);
       })
       .fail(function (error) {
         _triggerEvent('archiveError', error);
@@ -129,7 +130,7 @@
   };
 
   var _registerEvents = function () {
-    var events = ['startArchive', 'endArchive', 'archiveError'];
+    var events = ['startArchive', 'stopArchive', 'archiveReady', 'archiveError'];
     _accPack.registerEvents(events);
   };
 
