@@ -91,7 +91,7 @@
   };
 
   var stop = function () {
-    _triggerEvent('stopArchive', data);
+    _triggerEvent('stopArchive');
     $.post(_stopURL, { archiveId: _currentArchive.id })
       .then(function (data) {
         _setDownloadModal(data);
