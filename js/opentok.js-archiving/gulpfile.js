@@ -1,26 +1,24 @@
-var gulp = require('gulp');
-var uglify = require('gulp-uglify');
-var rename = require('gulp-rename');
-var merge = require('merge-stream');
+const gulp = require('gulp');
+const uglify = require('gulp-uglify');
+const rename = require('gulp-rename');
+const babel = require('gulp-babel');
 
-var dist = 'dist';
+const dist = 'dist';
 
 gulp.task('default', ['js', 'css']);
 
-gulp.task('js', function () {
-  var accPack = gulp.src('src/acc-pack-archiving.js')
+gulp.task('js', () =>
+  gulp.src('src/acc-pack-archiving.js')
+    .pipe(babel({ presets: ['es2015-script'] }))
     .pipe(rename('opentok-archiving.js'))
-    .pipe(gulp.dest(dist));
+    .pipe(gulp.dest(dist)));
 
-  var min = gulp.src('dist/opentok-archiving.js')
+gulp.task('js-min', () =>
+  gulp.src('dist/opentok-archiving.js')
     .pipe(uglify())
     .pipe(rename({
       suffix: '.min',
     }))
-    .pipe(gulp.dest(dist));
+    .pipe(gulp.dest(dist)));
 
-  return merge(accPack, min);
-});
-
-
-gulp.task('dist', ['js']);
+gulp.task('dist', ['js', 'js-min']);
