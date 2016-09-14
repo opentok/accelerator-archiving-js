@@ -46,7 +46,7 @@
     const date = new Date(null);
     date.setSeconds(archive.duration);
     const duration = date.toISOString().substr(11, 8);
-    const size = `${(archive.size / (1000 * 1000)).toString().slice(5)}mb`;
+    const size = `${(archive.size / (1000 * 1000)).toString().slice(0, 5)}mb`;
     return [
       '<div id="otsArchivingModal" class="ots-archiving-modal">',
       '<div class="modal-content">',

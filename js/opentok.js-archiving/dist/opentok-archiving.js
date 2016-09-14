@@ -36,7 +36,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     var date = new Date(null);
     date.setSeconds(archive.duration);
     var duration = date.toISOString().substr(11, 8);
-    var size = (archive.size / (1000 * 1000)).toString().slice(5) + 'mb';
+    var size = (archive.size / (1000 * 1000)).toString().slice(0, 5) + 'mb';
     return ['<div id="otsArchivingModal" class="ots-archiving-modal">', '<div class="modal-content">', '<div class="modal-header">', '<h2>Archive is ready</h2>', '<span id="closeArchiveModal" class="close-button"></span>', '</div>', '<div class="modal-info">', '<span class="archive-id">' + archive.id + '</span>', // eslint-disable-next-line max-len
     '<div class="archive-details">Archive details: ' + duration + ' / ' + size + '</div>', '</div>', '<div class="modal-buttons">', '<a href="' + archive.url + '" class="btn download" target="_blank">Download Archive</a>', '</div>', '</div>', '</div>'].join('\n');
   };
