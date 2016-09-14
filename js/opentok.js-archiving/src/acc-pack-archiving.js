@@ -1,7 +1,7 @@
 /* global ArchivingAccPack define */
 (function () {
   /** Include external dependencies */
-  var $;
+  let $;
 
   if (typeof module === 'object' && typeof module.exports === 'object') {
     /* eslint-disable import/no-unresolved */
@@ -11,90 +11,106 @@
     $ = this.$;
   }
 
-  var _startURL;
-  var _stopURL;
-  var _currentArchive;
-  var _recording = false;
-  var _controlAdded = false;
-  var _accPack;
-  var _session;
+  let _startURL;
+  let _stopURL;
+  let _currentArchive;
+  let _recording = false;
+  let _controlAdded = false;
+  let _accPack;
+  let _session;
 
-  var _triggerEvent = function (event, data) {
+  const _triggerEvent = (event, data) => {
     if (_accPack) {
       _accPack.triggerEvent(event, data);
     }
   };
 
-  var _setDownloadModal = function (archive) {
-    var date = new Date(null);
+  const _waitingModalTemplate = () => [
+    '<div id="otsArchivingModal" class="ots-archiving-modal">',
+    '<div class="modal-content">',
+    '<div class="modal-header">',
+    '<h2>Archive is being prepared</h2>',
+    '<span id="closeArchiveModal" class="close-button"></span>',
+    '</div>',
+    '<div class="modal-info">', // eslint-disable-next-line max-len
+    '<span class="message"> Your session archive file is now being prepared. You\'ll recieve a notification as soon as it\'s ready.  Please be patient, this won\'t take long.</span>',
+    '</div>',
+    '<div class="modal-buttons">',
+    '<div id="closeArchiveModalBtn" class="btn ok" target="_blank">Ok, Thanks!</div>',
+    '</div>',
+    '</div>',
+    '</div>'
+  ].join('\n');
+
+  const _readyModalTemplate = (archive) => {
+    const date = new Date(null);
     date.setSeconds(archive.duration);
-
-    var readableDate = date.toISOString().substr(11, 8);
-
-    /* eslint-disable prefer-template */
-    var modalTemplate = ['<div id="otsArchivingModal" class="ots-archiving-modal">',
+    const duration = date.toISOString().substr(11, 8);
+    const size = `${(archive.size / (1000 * 1000)).toString().slice(5)}mb`;
+    return [
+      '<div id="otsArchivingModal" class="ots-archiving-modal">',
       '<div class="modal-content">',
-      '<div>',
-      '<span id="closeArchiveModal" class="close-button">×</span>',
-      '<h2 class="archive-name">' + archive.name + '</h2>',
-      '<a href=' + archive.url + ' class="download" target="_blank">Download Archive</a>',
+      '<div class="modal-header">',
+      '<h2>Archive is ready</h2>',
+      '<span id="closeArchiveModal" class="close-button"></span>',
       '</div>',
-      '<div>',
-      '<span class="date-time"> File size: </span>',
-      '<span class="archive-information">' + archive.size / (1000 * 1000) + ' MB</span>',
-      '</br>',
-      '<span class="date-time"> Duration: </span>',
-      '<span class="archive-information">' + readableDate + '</span>',
-      '</br>',
+      '<div class="modal-info">',
+      `<span class="archive-id">${archive.id}</span>`, // eslint-disable-next-line max-len
+      `<div class="archive-details">Archive details: ${duration} / ${size}</div>`,
+      '</div>',
+      '<div class="modal-buttons">',
+      `<a href="${archive.url}" class="btn download" target="_blank">Download Archive</a>`,
       '</div>',
       '</div>',
       '</div>'
     ].join('\n');
-    /* eslint-enable prefer-template */
-
-    var modalParent = document.querySelector('#otsWidget');
-
-    var el = document.createElement('div');
-    el.innerHTML = modalTemplate;
-
-    var enableModal = el.firstChild;
-    modalParent.appendChild(enableModal);
-
-    // Get the modal
-    var modal = document.getElementById('otsArchivingModal');
-
-    // Get the button that opens the modal
-    // var btn = document.getElementById('myBtn');
-
-    // Get the <span> element that closes the modal
-    var closeModal = document.getElementById('closeArchiveModal');
-
-    // display the modal as soon the archive is ready
-    modal.style.display = 'block';
-
-    // When the user clicks on <closeModal> (x), close the modal
-    closeModal.onclick = function () {
-      modal.style.display = 'none';
-    };
   };
 
+  /**
+   * Displays a modal with the status of the archive.  If no archive object is passed,
+   * the 'waiting' modal will be displayed.  If an archive object is passed, the 'ready'
+   * modal will be displayed.
+   * @param {Object} archive
+   */
+  const _displayModal = archive => {
+    // Clean up existing modal
+    const existingModal = document.getElementById('otsArchivingModal');
+    existingModal && existingModal.remove();
 
-  var start = function () {
+    const template = archive ? _readyModalTemplate(archive) : _waitingModalTemplate();
+    const modalParent = document.querySelector('#otsWidget') || document.body;
+    const el = document.createElement('div');
+    el.innerHTML = template;
+
+    const modal = el.firstChild;
+    modalParent.appendChild(modal);
+
+    const closeModal = document.getElementById('closeArchiveModal');
+    const closeModalBtn = document.getElementById('closeArchiveModalBtn');
+
+    closeModal.onclick = () => modal.remove();
+    if (closeModalBtn) {
+      closeModalBtn.onclick = () => modal.remove();
+    }
+  };
+
+  const start = () => {
     $.post(_startURL, { sessionId: _session.id })
-      .then(function (archive) {
+      .then(archive => {
         _currentArchive = archive;
         _triggerEvent('startArchive', archive);
       })
-      .fail(function (error) {
+      .fail(error => {
         _triggerEvent('archiveError', error);
       });
   };
 
-  var stop = function () {
+  const stop = () => {
     _triggerEvent('stopArchive');
+    _displayModal();
     $.post(_stopURL, { archiveId: _currentArchive.id })
       .then(function (data) {
-        _setDownloadModal(data);
+        _displayModal(data);
         _triggerEvent('archiveReady', data);
       })
       .fail(function (error) {
@@ -102,21 +118,22 @@
       });
   };
 
-  var _appendControl = function (container) {
-    var feedControls = document.querySelector(container);
+  const _appendControl = (container) => {
+    const feedControls = document.querySelector(container);
 
-    var btn = '<div class="ots-video-control circle archiving enabled" id="enableArchiving"></div>';
+    // eslint-disable-next-line max-len
+    const btn = '<div class="ots-video-control circle archiving enabled" id="enableArchiving"></div>';
 
-    var el = document.createElement('div');
+    const el = document.createElement('div');
     el.innerHTML = btn;
 
-    var enableArchiving = el.firstChild;
+    const enableArchiving = el.firstChild;
 
     feedControls.appendChild(enableArchiving);
 
     _controlAdded = true;
 
-    enableArchiving.onclick = function () {
+    enableArchiving.onclick = () => {
       if (_recording) {
         _recording = false;
         document.querySelector('#enableArchiving').classList.remove('active');
@@ -129,12 +146,12 @@
     };
   };
 
-  var _registerEvents = function () {
-    var events = ['startArchive', 'stopArchive', 'archiveReady', 'archiveError'];
+  const _registerEvents = () => {
+    const events = ['startArchive', 'stopArchive', 'archiveReady', 'archiveError'];
     _accPack.registerEvents(events);
   };
 
-  var _addEventListeners = function () {
+  const _addEventListeners = () => {
     _accPack.registerEventListener('startCall', function () {
       if (_controlAdded) {
         document.getElementById('enableArchiving').classList.remove('ots-hidden');
@@ -148,10 +165,10 @@
     });
   };
 
-  var _validateOptions = function (options) {
-    var requiredOptions = ['session', 'startURL', 'stopURL'];
+  const _validateOptions = options => {
+    const requiredOptions = ['session', 'startURL', 'stopURL'];
 
-    requiredOptions.forEach(function (option) {
+    requiredOptions.forEach(option => {
       if (!options[option]) {
         throw new Error(['OT: Archiving Accelerator Pack requires a', option].join(''));
       }
@@ -163,10 +180,10 @@
     _accPack = options.accPack;
   };
 
-  var ArchivingAccPack = function (options) {
+  const ArchivingAccPack = options => {
     _validateOptions(options);
 
-    var controlsContainer = options.controlsContainer || '#feedControls';
+    const controlsContainer = options.controlsContainer || '#feedControls';
     _appendControl(controlsContainer);
 
     _registerEvents();
