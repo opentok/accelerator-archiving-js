@@ -14,6 +14,7 @@
   let _startURL;
   let _stopURL;
   let _currentArchive;
+  let _shouldAppendControl;
   let _recording = false;
   let _controlAdded = false;
   let _accPack;
@@ -156,7 +157,7 @@
       if (_controlAdded) {
         document.getElementById('enableArchiving').classList.remove('ots-hidden');
       } else {
-        _appendControl();
+        _shouldAppendControl && _appendControl();
       }
     });
 
@@ -178,13 +179,14 @@
     _startURL = options.startURL;
     _stopURL = options.stopURL;
     _accPack = options.accPack;
+    _shouldAppendControl = options.hasOwnProperty('appendControl') ? options.appendControl : true;
   };
 
   const ArchivingAccPack = options => {
     _validateOptions(options);
 
     const controlsContainer = options.controlsContainer || '#feedControls';
-    _appendControl(controlsContainer);
+    _shouldAppendControl && _appendControl(controlsContainer);
 
     _registerEvents();
     _addEventListeners();

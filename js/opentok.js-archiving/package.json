@@ -1,6 +1,6 @@
 {
   "name": "opentok-archiving",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "OpenTok archiving accelerator pack",
   "main": "dist/opentok-archiving.js",
   "directories": {

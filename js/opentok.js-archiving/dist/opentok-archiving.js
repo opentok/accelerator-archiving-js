@@ -16,6 +16,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   var _startURL = void 0;
   var _stopURL = void 0;
   var _currentArchive = void 0;
+  var _shouldAppendControl = void 0;
   var _recording = false;
   var _controlAdded = false;
   var _accPack = void 0;
@@ -131,7 +132,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       if (_controlAdded) {
         document.getElementById('enableArchiving').classList.remove('ots-hidden');
       } else {
-        _appendControl();
+        _shouldAppendControl && _appendControl();
       }
     });
 
@@ -153,13 +154,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     _startURL = options.startURL;
     _stopURL = options.stopURL;
     _accPack = options.accPack;
+    _shouldAppendControl = options.hasOwnProperty('appendControl') ? options.appendControl : true;
   };
 
   var ArchivingAccPack = function ArchivingAccPack(options) {
     _validateOptions(options);
 
     var controlsContainer = options.controlsContainer || '#feedControls';
-    _appendControl(controlsContainer);
+    _shouldAppendControl && _appendControl(controlsContainer);
 
     _registerEvents();
     _addEventListeners();
