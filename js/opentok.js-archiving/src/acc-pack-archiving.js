@@ -194,6 +194,8 @@
 
   ArchivingAccPack.prototype = {
     constructor: ArchivingAccPack,
+    start,
+    stop
   };
 
   if (typeof exports === 'object') {

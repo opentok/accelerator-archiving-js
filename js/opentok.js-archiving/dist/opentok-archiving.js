@@ -168,7 +168,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   };
 
   ArchivingAccPack.prototype = {
-    constructor: ArchivingAccPack
+    constructor: ArchivingAccPack,
+    start: start,
+    stop: stop
   };
 
   if ((typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) === 'object') {
