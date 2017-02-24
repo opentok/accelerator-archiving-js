@@ -162,7 +162,7 @@
     });
 
     _accPack.registerEventListener('endCall', function () {
-      document.getElementById('enableArchiving').classList.add('ots-hidden');
+      _shouldAppendControl && document.getElementById('enableArchiving').classList.add('ots-hidden');
     });
   };
 
