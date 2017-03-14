@@ -1,4 +1,4 @@
-![logo](tokbox-logo.png)
+![logo](../tokbox-logo.png)
 
 # Accelerator Archiving for JavaScript
 
