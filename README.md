@@ -7,4 +7,4 @@
 
 # Accelerator Archiving for JavaScript
 
-See details [here](../archiving-acc-pack/opentok.js-archiving/README.md)
+See details [here](opentok.js-archiving/README.md)
