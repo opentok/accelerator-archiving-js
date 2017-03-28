@@ -7,6 +7,8 @@
     "test": "test"
   },
   "scripts": {
+    "build-js": "babel src/acc-pack-archiving.js -o dist/opentok-archiving.js --presets=es2015-script && uglifyjs dist/opentok-archiving.js -o dist/opentok-archiving.min.js",
+    "build": "mkdir -p dist && npm run build-js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -23,14 +25,11 @@
     "url": "https://github.com/opentok/accelerator-archiving-js"
   },
   "devDependencies": {
+    "babel-cli": "^6.24.0",
     "babel-preset-es2015-script": "^1.1.0",
-    "gulp": "^3.9.0",
-    "gulp-amd-optimizer": "^0.3.4",
-    "gulp-amdclean": "^1.1.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-concat": "^2.6.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-uglify": "*"
+    "concat": "^3.0.0",
+    "npm-css": "^0.2.3",
+    "uglify-js": "^2.8.15"
   },
   "dependencies": {
     "jquery": "^3.1.0"
