@@ -1,6 +1,6 @@
 # Accelerator Archiving for JavaScript
 
-[![Build Status](https://travis-ci.org/opentok/accelerator-archiving-js.svg?branch=master)](https://travis-ci.org/opentok/accelerator-core-js)
+[![Build Status](https://travis-ci.org/opentok/accelerator-archiving-js.svg?branch=main)](https://travis-ci.org/opentok/accelerator-core-js)
 [![license](https://img.shields.io/github/license/opentok/accelerator-archiving-js.svg)](./.github/CONTRIBUTING.md)
 [![npm](https://img.shields.io/npm/v/opentok-archiving.svg)](https://www.npmjs.com/package/opentok-archiving)
 
