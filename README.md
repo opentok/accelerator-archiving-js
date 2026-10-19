@@ -6,6 +6,8 @@
 
 <img src="https://assets.tokbox.com/img/vonage/Vonage_VideoAPI_black.svg" height="48px" alt="Tokbox is now known as Vonage" />
 
+> ⚠️ This repository is deprecated and will no longer receive meaningful updates. For new projects and migrations, we recommend using the [Vonage Video React reference application](https://github.com/Vonage/vonage-video-react-app).
+
 ## Quick start
 
 The OpenTok Archiving Accelerator Pack provides functionality you can add to your OpenTok applications that enables users to record, save, and retrieve OpenTok sessions.
